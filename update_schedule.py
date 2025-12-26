@@ -31,6 +31,26 @@ DATES = {
     "wednesday, february 4": (2025, 2, 4),
 }
 
+# VTIMEZONE component for America/New_York (required for Google Calendar)
+VTIMEZONE = """BEGIN:VTIMEZONE
+TZID:America/New_York
+X-LIC-LOCATION:America/New_York
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+TZNAME:EDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+TZNAME:EST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE"""
+
 
 def fetch_schedule() -> str:
     """Fetch the schedule page HTML."""
@@ -184,8 +204,17 @@ def parse_events(html: str) -> list[dict]:
     return events
 
 
+def escape_ics_text(text: str) -> str:
+    """Escape special characters for ICS format."""
+    text = text.replace("\\", "\\\\")
+    text = text.replace(";", "\\;")
+    text = text.replace(",", "\\,")
+    text = text.replace("\n", "\\n")
+    return text
+
+
 def generate_ics(events: list[dict]) -> str:
-    """Generate ICS content from events."""
+    """Generate ICS content from events with proper timezone support for Google Calendar."""
     lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
@@ -196,7 +225,11 @@ def generate_ics(events: list[dict]) -> str:
         "X-WR-TIMEZONE:America/New_York",
     ]
     
+    # Add VTIMEZONE component (required for Google Calendar compatibility)
+    lines.append(VTIMEZONE)
+    
     for event in events:
+        # Format datetime with TZID parameter (Google Calendar requirement)
         start_str = event['start'].strftime("%Y%m%dT%H%M%S")
         end_str = event['end'].strftime("%Y%m%dT%H%M%S")
         
@@ -218,16 +251,8 @@ def generate_ics(events: list[dict]) -> str:
     
     lines.append("END:VCALENDAR")
     
+    # Use CRLF line endings as per ICS spec
     return "\r\n".join(lines)
-
-
-def escape_ics_text(text: str) -> str:
-    """Escape special characters for ICS format."""
-    text = text.replace("\\", "\\\\")
-    text = text.replace(";", "\\;")
-    text = text.replace(",", "\\,")
-    text = text.replace("\n", "\\n")
-    return text
 
 
 def compare_events(old_events: list[dict], new_events: list[dict]) -> dict:
@@ -368,7 +393,7 @@ def main():
     events = parse_events(html)
     print(f"✓ Parsed {len(events)} events")
     
-    # Generate ICS
+    # Generate ICS with Google Calendar compatible format
     ics_content = generate_ics(events)
     
     # Compare with old ICS if it exists
