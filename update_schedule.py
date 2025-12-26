@@ -20,15 +20,15 @@ from bs4 import BeautifulSoup
 SCHEDULE_URL = "https://www.therockboat.com/schedule/print/"
 TIMEZONE = ZoneInfo("America/New_York")
 
-# The Rock Boat XXV dates
+# The Rock Boat XXV dates (January 29 - February 4, 2026)
 DATES = {
-    "thursday, january 29": (2025, 1, 29),
-    "friday, january 30": (2025, 1, 30),
-    "saturday, january 31": (2025, 1, 31),
-    "sunday, february 1": (2025, 2, 1),
-    "monday, february 2": (2025, 2, 2),
-    "tuesday, february 3": (2025, 2, 3),
-    "wednesday, february 4": (2025, 2, 4),
+    "thursday, january 29": (2026, 1, 29),
+    "friday, january 30": (2026, 1, 30),
+    "saturday, january 31": (2026, 1, 31),
+    "sunday, february 1": (2026, 2, 1),
+    "monday, february 2": (2026, 2, 2),
+    "tuesday, february 3": (2026, 2, 3),
+    "wednesday, february 4": (2026, 2, 4),
 }
 
 # VTIMEZONE component for America/New_York (required for Google Calendar)
