@@ -12,7 +12,7 @@ This repository automatically checks for schedule updates twice daily and:
 Once set up, you can subscribe to this calendar at:
 
 ```
-https://topperge.github.io/rockboat-calendar/rockboat_schedule.ics
+[https://topperge.github.io/rockboat-calendar/rockboat_schedule.ics](https://topperge.github.io/rockboat-2025-schedule/rockboat_schedule.ics)
 ```
 
 ### Subscribe in Apple Calendar
@@ -52,7 +52,7 @@ cd rockboat-calendar
 
 Your calendar will be available at:
 ```
-https://YOUR_USERNAME.github.io/rockboat-calendar/rockboat_schedule.ics
+[https://YOUR_USERNAME.github.io/rockboat-calendar/rockboat_schedule.ics](https://topperge.github.io/rockboat-2025-schedule/rockboat_schedule.ics)
 ```
 
 ### 3. Configure Slack Notifications (Optional)
